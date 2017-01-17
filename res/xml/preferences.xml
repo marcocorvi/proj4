@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+  <com.topodroid.proj4.MyListPreference
+       android:key="FROM_CRS"
+       android:summary="@string/pref_from_crs"
+       android:title="@string/pref_from_crs"
+       android:defaultValue="latlong"
+       android:entries="@array/fcrsName"
+       android:entryValues="@array/fcrsValue"
+     />
+
+  <com.topodroid.proj4.MyListPreference
+       android:key="TO_CRS"
+       android:summary="@string/pref_to_crs"
+       android:title="@string/pref_to_crs"
+       android:defaultValue="gb1"
+       android:entries="@array/tcrsName"
+       android:entryValues="@array/tcrsValue"
+     />
+
+
+</PreferenceScreen>

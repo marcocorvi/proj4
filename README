@@ -1,0 +1,17 @@
+Proj4
+===================
+
+Coordinate conversion application based on the Proj4 library. 
+This app is built for the Android platforms v8 - adjust to suit.
+
+To build and run:
+
+~~~~~ bash
+cd jni
+ndk-build 
+cd ..
+ant clean debug install
+~~~~~
+
+The app is installed as 'Proj4'.
+

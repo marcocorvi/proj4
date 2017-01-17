@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
+    android:paddingBottom="3dp">
+
+    <EditText android:id="@+id/crs_name"
+        android:layout_marginTop="2dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:text=""
+        />
+
+    <EditText android:id="@+id/crs_digits"
+        android:layout_marginTop="2dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:inputType="number"
+        android:singleLine="true"
+        android:text="2"
+        />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        >
+      <EditText android:id="@+id/crs_desc"
+        android:layout_marginTop="2dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minLines="8"
+        android:gravity="top|left"
+        android:inputType="textMultiLine"
+        android:minWidth="10.0dp" 
+        android:maxWidth="5.0dp" 
+      	android:ems="25"
+        />
+    </ScrollView>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+      android:layout_width="fill_parent" 
+      android:layout_height="wrap_content"
+      android:orientation="horizontal" 
+      >
+      <Button android:id="@+id/button_ok"
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_gravity="left"
+        android:singleLine="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="@string/button_ok"
+        />
+      <Button android:id="@+id/button_delete"
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:singleLine="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="@string/button_delete"
+        />
+      <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right"
+        >
+      <Button android:id="@+id/button_cancel"
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:singleLine="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="@string/button_cancel"
+        />
+      </LinearLayout>
+    </LinearLayout>
+   		
+</LinearLayout>

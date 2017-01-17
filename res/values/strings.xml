@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">Proj4</string>
+<string name="pref_from_crs">Source CRS</string>
+<string name="pref_to_crs">Target CRS</string>
+
+<string name="crs_new">New CRS</string>
+
+<string name="menu_export">Export</string>
+<string name="menu_country">Country</string>
+<string name="menu_options">Options</string>
+<string name="menu_help">Help</string>
+
+<string name="button_ok">OK</string>
+<string name="button_cancel">Cancel</string>
+<string name="button_delete">Delete</string>
+
+<string name="really_delete">Really delete this CRS ?</string>
+
+<string name="title_export">Enter export filename:</string>
+<string name="title_import">Select point to import:</string>
+
+<string name="MT_points_none">No point to import</string>
+
+<string name="help">
+See http://trac.osgeo.org/proj\n
+\n
+CRS syntax (datum support), abridged:\n
++a        Semimajor axis\n
++axis     Order of the coordinates [+azie=neu]\n
++b        Semiminor axis\n
++datum    Datum name (see proj -ld)\n
++ellps    Ellipsoid name (see proj -le)\n
++k_0      Scaling factor [+k_0=0.9996]\n
++lat_0    Latitude of the origin\n
++lat_1    Latitude of the first std parallel\n
++lat_2    Latitude of the second std parallel\n
++lat_ts   Latitude of true scale\n
++lon_0    Central meridian\n
++no_defs  Do not use proj_def.dat defaults file\n
++pm       Alternate prime meridian [+pm=rome]\n
++proj     Projection name (see proj -l)\n
++south    Southern hemisphere UTM zone\n
++to_meter Multiplier to cenvert map units to 1.0m\n
++towgs84  3 or 7 term datum transform params\n
++units    meters, US survey feet, etc.\n
++vtometers Vertical conversion to meters\n
++vunits   Vertical units\n
++x_0      False easting\n
++y_0      False northing\n
++zone     UTM zone\n
+\n
+\n
+Proj4 coord data syntax.\n
+\n
+Lengths are expresssed as a single number in the proper units.
+Angles can be expressed in decimal form, eg., 44.389602, 
+or as DDMMSS, eg., 44d23\'22.57\" (or 44d23\'22.57).
+It is possible to mix types for angular coordinates, for example
+to use decimal degrees for longitude and DDMMSS for latitude.
+</string>
+
+</resources>
