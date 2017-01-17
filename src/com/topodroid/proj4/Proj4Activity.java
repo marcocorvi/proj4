@@ -581,7 +581,7 @@ public class Proj4Activity extends Activity
     } else if ( item == mMIexport ) {  // EXPORT
       (new Proj4ExportDialog( this, this )).show();
     } else if ( item == mMIcountry ) {  // SET COUNTRY
-      // TODO (new Proj4CountryDialog( this, this )).show();
+      (new Proj4CountryDialog( this, this, mCRSmanager )).show();
 
     // } else if ( item == mMIoptions ) { // OPTIONS DIALOG
     //   Intent optionsIntent = new Intent( this, Proj4Preferences.class );
@@ -649,8 +649,9 @@ public class Proj4Activity extends Activity
     if ( country != null && ! country.equals( mCountry ) ) {
       mCountry = country;
       setCRSmap();
+      mCRSmanager.setCountry( mCountry );
       mCRSmanager.loadCRS();
-      mCRSmanager = new CRSManager( this, CRS_FILENAME, mCountry );
+
       SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( this );
       SharedPreferences.Editor editor = prefs.edit();
       editor.putString( "COUNTRY", mCountry );
@@ -659,41 +660,41 @@ public class Proj4Activity extends Activity
   }
     
 
-    private void getCRSprefs()
-    {
-      SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( this );
-      mFromCRS = prefs.getString( "FROM_CRS", "Long-Lat" );
-      mToCRS   = prefs.getString( "TO_CRS", "UTM32N" );
-      mCountry = prefs.getString( "COUNTRY", "it" );
-      mBTfromcrs.setText( mFromCRS );
-      mBTtocrs.setText( mToCRS );
-    }
+  private void getCRSprefs()
+  {
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( this );
+    mFromCRS = prefs.getString( "FROM_CRS", "Long-Lat" );
+    mToCRS   = prefs.getString( "TO_CRS", "UTM32N" );
+    mCountry = prefs.getString( "COUNTRY", "it" );
+    mBTfromcrs.setText( mFromCRS );
+    mBTtocrs.setText( mToCRS );
+  }
 
-    private void setCRSprefs()
-    {
-      SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( this );
-      SharedPreferences.Editor editor = prefs.edit();
-      editor.putString( "FROM_CRS", mFromCRS );
-      editor.putString( "TO_CRS", mToCRS );
-      editor.commit();
-    }
+  private void setCRSprefs()
+  {
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( this );
+    SharedPreferences.Editor editor = prefs.edit();
+    editor.putString( "FROM_CRS", mFromCRS );
+    editor.putString( "TO_CRS", mToCRS );
+    editor.commit();
+  }
 
-    void setMobileTopographerPoint( double mLng, double mLat, double mHGeo )
-    {
-      double[] c = new double[3];
-      c[0] = mLng;
-      c[1] = mLat;
-      c[2] = mHGeo;
-      boolean ok = true;
-      if ( ! mFromCRS.equals("Long-Lat" ) ) {
-        ok = convert( "Long-Lat", mFromCRS, c );
-      }
-      if ( ok ) {
-        int d = mCRSmanager.getDigits( mFromCRS );
-        mETfromX.setText( coord2text( c[0], d ) );
-        mETfromY.setText( coord2text( c[1], d ) );
-        mETfromZ.setText( coord2text( c[2], 0 ) );
-      } 
+  void setMobileTopographerPoint( double mLng, double mLat, double mHGeo )
+  {
+    double[] c = new double[3];
+    c[0] = mLng;
+    c[1] = mLat;
+    c[2] = mHGeo;
+    boolean ok = true;
+    if ( ! mFromCRS.equals("Long-Lat" ) ) {
+      ok = convert( "Long-Lat", mFromCRS, c );
     }
+    if ( ok ) {
+      int d = mCRSmanager.getDigits( mFromCRS );
+      mETfromX.setText( coord2text( c[0], d ) );
+      mETfromY.setText( coord2text( c[1], d ) );
+      mETfromZ.setText( coord2text( c[2], 0 ) );
+    } 
+  }
 
 }

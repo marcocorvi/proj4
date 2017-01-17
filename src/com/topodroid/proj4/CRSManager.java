@@ -56,6 +56,8 @@ class CRSManager
 
   String getCountry() { return mCountry; }
 
+  String getCountryName() { return mDB.getCountryName( mCountry ); }
+
   int size() { return mCrs.size(); }
 
   boolean hasCRS( String name )
@@ -70,6 +72,10 @@ class CRSManager
     if ( name == null ) return null;
     return (CRS)mCrs.get( name );
   }
+
+  String getCountryCode( String name ) { return mDB.getCountryCode( name ); }
+
+  ArrayList< String > getCountryNames() { return mDB.getCountryNames(); }
 
   String getDescription( String name ) 
   { 
@@ -134,6 +140,7 @@ class CRSManager
     
   void loadCRS()
   {
+    mCrs.clear();
     addCrs( "Long-Lat", "+proj=latlong +datum=WGS84", 8, false );
     loadCustomCRS();
     loadCountryCRS();

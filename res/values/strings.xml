@@ -19,6 +19,8 @@
 
 <string name="title_export">Enter export filename:</string>
 <string name="title_import">Select point to import:</string>
+<string name="title_country">Current country:</string>
+<string name="title_crs">Coord. Ref. Systems</string>
 
 <string name="MT_points_none">No point to import</string>
 

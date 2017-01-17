@@ -1,4 +1,4 @@
-/** @file CRSListDialog.java
+/** @file Proj4CountryDialog.java
  *
  * @author marco corvi
  * @date jan 2013
@@ -23,7 +23,7 @@ import android.app.Dialog;
 import android.content.Context;
 
 import android.view.View;
-import android.view.View.OnClickListener;
+// import android.view.View.OnClickListener;
 
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -32,79 +32,52 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 
 import android.widget.Toast;
 
 import android.util.Log;
 
-public class CRSListDialog extends Dialog
-                        implements OnItemClickListener
-                                , OnItemLongClickListener
-                                , View.OnClickListener
+public class Proj4CountryDialog extends Dialog
+                                implements OnItemClickListener
 {
   private Context mContext;
   private Proj4Activity mParent;
   private CRSManager mCRS;
   private ArrayAdapter<String> mArrayAdapter;
-  private Button mBTnew;
-  private int mType;
+  private Button mBTcountry;
 
   private ListView mList;
 
-  public CRSListDialog( Context context, Proj4Activity parent, CRSManager crs, int type )
+  public Proj4CountryDialog( Context context, Proj4Activity parent, CRSManager crs )
   {
     super( context );
     mContext = context;
     mParent  = parent;
     mCRS     = crs;
-    mType    = type;
   }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) 
   {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.crs_list );
+    setContentView(R.layout.proj4_country_dialog );
     mArrayAdapter = new ArrayAdapter<String>( mContext, R.layout.message );
 
-    mBTnew = (Button) findViewById(R.id.crs_new);
+    mBTcountry = (Button) findViewById(R.id.country);
 
     mList = (ListView) findViewById(R.id.list);
     mList.setAdapter( mArrayAdapter );
     mList.setOnItemClickListener( this );
-    mList.setOnItemLongClickListener( this );
     mList.setDividerHeight( 2 );
 
-    mBTnew.setOnClickListener( this );
-
-    updateList();
-    setTitle( R.string.title_crs );
-  }
-
-  private void updateList()
-  {
     mArrayAdapter.clear();
-    for ( String k : mCRS.getNames() ) {
-      mArrayAdapter.add( k );
+    for ( String n : mCRS.getCountryNames() ) {
+      mArrayAdapter.add( n );
     }
+    mBTcountry.setText( mCRS.getCountryName() );
+    setTitle( R.string.title_country );
   }
  
-  // @Override
-  public void onClick(View v) 
-  {
-    Button b = (Button) v;
-    if ( b == mBTnew ) {
-      hide();
-      new CRSNewDialog( mParent, mCRS ).show();
-      show();
-      updateList();
-    } else {
-      hide();
-      dismiss();
-    }
-  }
-
   // ---------------------------------------------------------------
   // list items click
 
@@ -112,24 +85,21 @@ public class CRSListDialog extends Dialog
   public void onItemClick(AdapterView<?> parent, View view, int pos, long id)
   {
     String str = ((TextView) view).getText().toString();
-    String name = (String) mArrayAdapter.getItem(pos);
+    // String name = (String) mArrayAdapter.getItem(pos);
     // Log.v( "Proj4", "item click: pos " + pos + " name " + name + " = " + str );
-    mParent.setCRS( str, mType );
-    dismiss();
+    mBTcountry.setText( str );
   }
 
   @Override
-  public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id)
+  public void onBackPressed()
   {
-    String str = ((TextView) view).getText().toString();
-    String name = (String) mArrayAdapter.getItem(pos);
+    String name = mBTcountry.getText().toString();
     // Log.v( "Proj4", "item long click: pos " + pos + " name " + name + " = " + str );
     if ( name != null ) {
-      new CRSEditDialog( mContext, mCRS, name ).show();
-      return true;
-    } else {
-      return false;
+      String country = mCRS.getCountryCode( name );
+      mParent.setCountry( country );
     }
+    super.onBackPressed();
   }
 
 }

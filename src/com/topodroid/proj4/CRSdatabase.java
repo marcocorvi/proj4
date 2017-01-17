@@ -116,21 +116,48 @@ public class CRSdatabase extends DataSetObservable
      return list;
    }
 
-   public ArrayList< Country > selectAllCountries()
+   public String getCountryName( String code )
    {
-     ArrayList< Country > ret = new ArrayList<Country>();
+     if ( code == null ) return null;
+     String ret = null;
      Cursor cursor = myDB.query( COUNTRY_TABLE,
-                                 new String[] { "code", "name" },
+                                 new String[] { "name" },
+                                 "code=?", new String[] { code }, null, null, null );
+     if (cursor.moveToFirst()) {
+       ret = cursor.getString(0);
+     }
+     if (cursor != null && !cursor.isClosed()) cursor.close();
+     return ret;
+   }
+
+   public ArrayList< String > getCountryNames()
+   {
+     ArrayList< String > ret = new ArrayList<String>();
+     Cursor cursor = myDB.query( COUNTRY_TABLE,
+                                 new String[] { "name" },
                                  null, null, null, null, null );
      if (cursor.moveToFirst()) {
        do {
-         ret.add( new Country( cursor.getString(0), cursor.getString(1) ) );
+         ret.add( cursor.getString(0) );
        } while (cursor.moveToNext());
      }
      if (cursor != null && !cursor.isClosed()) cursor.close();
      return ret;
    }
-                                  
+
+   public String getCountryCode( String name )
+   {
+     String ret = null;
+     Cursor cursor = myDB.query( COUNTRY_TABLE,
+                                 new String[] { "code" },
+                                 "name=?", new String[] { name }, null, null, null );
+     if (cursor.moveToFirst()) {
+       ret = cursor.getString(0);
+     }
+     if (cursor != null && !cursor.isClosed()) cursor.close();
+     return ret;
+   }
+
    public CRS getCRS( long id )
    {
      CRS crs = null;
