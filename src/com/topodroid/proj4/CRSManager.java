@@ -75,7 +75,15 @@ class CRSManager
 
   String getCountryCode( String name ) { return mDB.getCountryCode( name ); }
 
-  ArrayList< String > getCountryNames() { return mDB.getCountryNames(); }
+  ArrayList< String > getCountryNames( long  continent ) { return mDB.getCountryNames( continent ); }
+
+  ArrayList< String > getContinentNames( ) 
+  {
+    // Log.v("Proj4", "Get Continent Names");
+    return mDB.getContinentNames();
+  }
+
+  long getContinentCode( String name ) { return mDB.getContinentCode( name ); }
 
   String getDescription( String name ) 
   { 
@@ -244,7 +252,7 @@ class CRSManager
       bw.flush();
       fos.close();
     } catch ( IOException e ) {
-      Log.e( TAG, "IO Exception " + e );
+      Log.e( TAG, "IO Exception " + e.getMessage() );
     }
   }
 

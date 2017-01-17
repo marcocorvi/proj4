@@ -48,6 +48,7 @@ public class CRSdatabase extends DataSetObservable
 
   private static final String CRS_TABLE     = "crs";
   private static final String COUNTRY_TABLE = "country";
+  private static final String CONTINENT_TABLE = "continent";
   private static final String COUNTRY_CRS_TABLE = "relation";
 
 
@@ -130,12 +131,44 @@ public class CRSdatabase extends DataSetObservable
      return ret;
    }
 
-   public ArrayList< String > getCountryNames()
+   public long getContinentCode( String name )
+   {
+     long ret = -1L;
+     Cursor cursor = myDB.query( CONTINENT_TABLE,
+                                 new String[] { "id" },
+                                 "name=?", new String[] { name }, null, null, null );
+     if (cursor.moveToFirst()) {
+       ret = cursor.getLong(0);
+     }
+     if (cursor != null && !cursor.isClosed()) cursor.close();
+     return ret;
+   }
+
+   public ArrayList< String > getContinentNames( )
+   {
+     // Log.v("Proj4", "get continent names");
+     ArrayList< String > ret = new ArrayList<String>();
+     Cursor cursor = myDB.query( CONTINENT_TABLE,
+                                 new String[] { "name" },
+                                 null, null, null, null, "name" );
+     if (cursor.moveToFirst()) {
+       do {
+         // Log.v("Proj4", "CONTINENT " + cursor.getString(0) );
+         ret.add( cursor.getString(0) );
+       } while (cursor.moveToNext());
+     }
+     if (cursor != null && !cursor.isClosed()) cursor.close();
+     // Log.v("Proj4", "get continent names " + ret.size() );
+     return ret;
+   }
+
+   public ArrayList< String > getCountryNames( long continent )
    {
      ArrayList< String > ret = new ArrayList<String>();
      Cursor cursor = myDB.query( COUNTRY_TABLE,
                                  new String[] { "name" },
-                                 null, null, null, null, null );
+                                 "continent=?", new String[] { Long.toString(continent) },
+                                 null, null, "name" );
      if (cursor.moveToFirst()) {
        do {
          ret.add( cursor.getString(0) );

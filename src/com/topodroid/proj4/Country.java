@@ -20,11 +20,13 @@ class Country
 {
   String mCode; // two-char iso code
   String mName; // presentation name
+  Long   mContinent;
 
-  Country( String code, String name )
+  Country( String code, String name, long continent )
   {
     mCode = code;
     mName = name;
+    mContinent = continent;
   }
 
 }
