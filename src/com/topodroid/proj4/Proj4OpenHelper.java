@@ -32,7 +32,10 @@ public class Proj4OpenHelper extends SQLiteOpenHelper
 {
   private String DB_NAME = "proj4.sqlite";
   private String DB_PATH = "";
-  private String DB_VERSION = "1";
+  // IMPORTANT 
+  // when theCRS database is updated the version must be incremented both here
+  // and in the database config table. The two values must agree.
+  private String DB_VERSION = "2"; 
 
   private Context mContext;
   public SQLiteDatabase mDB;
@@ -71,6 +74,7 @@ public class Proj4OpenHelper extends SQLiteOpenHelper
       close();
     }
     if ( ! exists ) {
+      Log.v("Proj4", "COPY Database" );
       copyDatabase();
     }
   }
