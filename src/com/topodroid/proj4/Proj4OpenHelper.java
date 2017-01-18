@@ -52,7 +52,7 @@ public class Proj4OpenHelper extends SQLiteOpenHelper
   public void createDatabase()
   {
     boolean exists = checkDatabase();
-    Log.v("Proj4", "CREATE database exists " + exists );
+    // Log.v("Proj4", "CREATE database exists " + exists );
     if ( exists ) {
       exists = false;
       if ( openDatabase() ) {
@@ -95,7 +95,7 @@ public class Proj4OpenHelper extends SQLiteOpenHelper
   boolean openDatabase()
   {
     String path = DB_PATH + DB_NAME;
-    Log.v("Proj4", "OPEN database " + path );
+    // Log.v("Proj4", "OPEN database " + path );
     mDB = null;
     try {
       // mDB = SQLiteDatabase.openDatabase( path, null, SQLiteDatabase.CREATE_IF_NECESSARY );

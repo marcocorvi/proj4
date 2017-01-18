@@ -22,6 +22,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import java.util.Locale;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -92,6 +94,8 @@ public class Proj4Activity extends Activity
     private ImageButton mBTfrom2map;
     private ImageButton mBTto2map;
     private ImageButton mBTmobile2from;
+    private ImageButton mBTgeomag;
+    private EditText mETdeclination;
     private MenuItem mMIexport;
     private MenuItem mMIcountry;
     // private MenuItem mMIoptions;
@@ -99,6 +103,8 @@ public class Proj4Activity extends Activity
 
     private String   mFromCRS;
     private String   mToCRS;
+
+    private WorldMagneticModel mWMM;
 
     void setCRS( String name, int type ) 
     { 
@@ -150,11 +156,13 @@ public class Proj4Activity extends Activity
         mETtoX     = (EditText)findViewById(R.id.to_x);
         mETtoY     = (EditText)findViewById(R.id.to_y);
         mETtoZ     = (EditText)findViewById(R.id.to_z);
+        mETdeclination = (EditText)findViewById(R.id.declination);
         mBTfrom2to = (ImageButton)findViewById(R.id.from2to);
         mBTto2from = (ImageButton)findViewById(R.id.to2from);
         mBTfrom2map = (ImageButton)findViewById(R.id.from2map);
         mBTto2map   = (ImageButton)findViewById(R.id.to2map);
         mBTmobile2from = (ImageButton)findViewById(R.id.mobile2from);
+        mBTgeomag   = (ImageButton)findViewById(R.id.geomag);
 
         mBTfromcrs.setOnClickListener( this );
         mBTtocrs.setOnClickListener( this );
@@ -165,6 +173,7 @@ public class Proj4Activity extends Activity
         mBTfrom2map.setOnClickListener( this );
         mBTto2map.setOnClickListener( this );
         mBTmobile2from.setOnClickListener( this );
+        mBTgeomag.setOnClickListener( this );
 
         mETfromX.setOnLongClickListener( this );
         mETfromY.setOnLongClickListener( this );
@@ -177,6 +186,7 @@ public class Proj4Activity extends Activity
         getCRSprefs();
         setCRSmap();
 
+        mWMM = new WorldMagneticModel( this );
     }
 
     @Override
@@ -379,6 +389,30 @@ public class Proj4Activity extends Activity
         }
       } else if ( view.getId() == R.id.mobile2from ) { // get point from Mobile Topographer
         (new MobileTopographerImportDialog( this, this )).show();
+      } else if ( view.getId() == R.id.geomag ) {
+        GregorianCalendar gc = new GregorianCalendar();
+        int year  = gc.get( Calendar.YEAR ); 
+        int month = gc.get( Calendar.MONTH ); 
+        int day   = gc.get( Calendar.DAY_OF_MONTH); 
+        // compute magnetic declination
+        double[] c = new double[3];
+        c[0] = c[1] = c[2] = 0;
+        int kcf = edittext2coords( mETfromX, mETfromY, mETfromZ, c );
+        boolean ok = ( kcf == 3 );
+        if ( ok && ! mFromCRS.equals("Long-Lat" ) ) {
+          ok = convert( mFromCRS, "Long-Lat", c );
+        } 
+        if ( ok ) {
+          // mHGeo = mWMM.ellipsoidToGeoid( mLat, mLng, mHEll ); 
+          MagElement elem = mWMM.computeMagElement( c[1], c[0], c[2], year, month, day );
+          StringWriter sw = new StringWriter();
+          PrintWriter  pw = new PrintWriter( sw );
+          pw.format( Locale.US, "%.3f", elem.Decl );
+          mETdeclination.setText( sw.getBuffer().toString() );
+          // Log.v("Proj4", "Coords " + c[0] + " " + c[1] + " " + c[2] + " Declination " + elem.Decl );
+        } else {
+          Toast.makeText(this, "Failed Magnetic Declination at " + year + "/" + month + "/" + day , Toast.LENGTH_SHORT );
+        }
       }
     }
 
@@ -687,7 +721,7 @@ public class Proj4Activity extends Activity
     c[2] = mHGeo;
     boolean ok = true;
     if ( ! mFromCRS.equals("Long-Lat" ) ) {
-      ok = convert( "Long-Lat", mFromCRS, c );
+      ok = convert( mFromCRS, "Long-Lat", c );
     }
     if ( ok ) {
       int d = mCRSmanager.getDigits( mFromCRS );

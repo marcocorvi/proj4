@@ -51,15 +51,19 @@ CRS syntax (datum support), abridged:\n
 +x_0      False easting\n
 +y_0      False northing\n
 +zone     UTM zone\n
-\n
-\n
-Proj4 coord data syntax.\n
-\n
+\n\n
+Proj4 coord data syntax.\n\n
 Lengths are expresssed as a single number in the proper units.
 Angles can be expressed in decimal form, eg., 44.389602, 
 or as DDMMSS, eg., 44d23\'22.57\" (or 44d23\'22.57).
 It is possible to mix types for angular coordinates, for example
 to use decimal degrees for longitude and DDMMSS for latitude.
+\n\n
+Buttons:\n
+- arrorw: convert coordinates\n
+- marker: view point on maps\n
+- topographer: import coordinates from MobileTopographer point list\n
+- compass: magnetic declination of left coordinates\n
 </string>
 
 </resources>

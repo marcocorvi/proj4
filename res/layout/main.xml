@@ -27,14 +27,14 @@
         android:id="@+id/from_y"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dip"
+        android:layout_marginTop="10dip"
         android:text="44.389197"
         />
     <EditText
         android:id="@+id/from_z"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dip"
+        android:layout_marginTop="10dip"
         android:inputType="numberDecimal"
         android:text="250"
         />
@@ -42,21 +42,21 @@
         android:id="@+id/from2to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dip"
+        android:layout_marginTop="15dip"
         android:src="@drawable/down"
         />
     <ImageButton
         android:id="@+id/from2map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dip"
+        android:layout_marginTop="15dip"
         android:src="@drawable/marker"
         />
     <ImageButton
         android:id="@+id/mobile2from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dip"
+        android:layout_marginTop="15dip"
         android:src="@drawable/mobile"
         />
     
@@ -86,7 +86,7 @@
         android:id="@+id/to_y"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dip"
+        android:layout_marginTop="10dip"
         android:textColor="#ffff0000"
         android:hint="north"
         />
@@ -94,7 +94,7 @@
         android:id="@+id/to_z"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dip"
+        android:layout_marginTop="10dip"
         android:textColor="#ffff0000"
         android:hint="alt."
         android:inputType="numberDecimal"
@@ -103,17 +103,38 @@
         android:id="@+id/to2from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dip"
+        android:layout_marginTop="15dip"
         android:src="@drawable/up"
         />
     <ImageButton
         android:id="@+id/to2map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dip"
+        android:layout_marginTop="15dip"
         android:src="@drawable/marker"
         />
-
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:orientation="horizontal"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="15dip"
+      >
+      <ImageButton
+        android:id="@+id/geomag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/geomag"
+        />
+      <EditText
+        android:id="@+id/declination"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dip"
+        android:layout_marginTop="10dip"
+        android:text="0.0"
+        android:editable="false"
+        />
+    </LinearLayout>
   </LinearLayout>
 </LinearLayout>
 
