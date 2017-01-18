@@ -66,6 +66,9 @@ INSERT INTO "crs" VALUES(27571, 'Lambert zone I', '+proj=lcc +lat_1=49.500000000
 INSERT INTO "crs" VALUES(27572, 'Lambert zone II', '+proj=lcc +lat_1=46.8 +lat_0=46.8 +lon_0=0 +k_0=0.99987742 +x_0=600000 +y_0=2200000 +a=6378249.2 +b=6356515 +towgs84=-168,-60,320,0,0,0,0 +pm=paris +units=m +no_defs', 2 );
 INSERT INTO "crs" VALUES(27573, 'Lambert zone III', '+proj=lcc +lat_1=44.10000000000001 +lat_0=44.10000000000001 +lon_0=0 +k_0=0.999877499 +x_0=600000 +y_0=3200000 +a=6378249.2 +b=6356515 +towgs84=-168,-60,320,0,0,0,0 +pm=paris +units=m +no_defs', 2 );
 INSERT INTO "crs" VALUES(27574, 'Lambert zone IV', '+proj=lcc +lat_1=42.16500000000001 +lat_0=42.16500000000001 +lon_0=0 +k_0=0.99994471 +x_0=234.358 +y_0=4185861.369 +a=6378249.2 +b=6356515 +towgs84=-168,-60,320,0,0,0,0 +pm=paris +units=m +no_defs', 2 );
+/* SWITZERLAND */
+INSERT INTO "crs" VALUES(21781,'CH1903+ / LV95','+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs',0);
+INSERT INTO "crs" VALUES(21782,'CH1903 / LV03','+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs',0);
 /* 
 INSERT INTO "crs" VALUES( );
 INSERT INTO "crs" VALUES( );
@@ -131,6 +134,8 @@ INSERT INTO "relation" VALUES('fr',32630);
 INSERT INTO "relation" VALUES('fr',32631);
 INSERT INTO "relation" VALUES('fr',32632);
 INSERT INTO "relation" VALUES('ch',32632); /* SWITZERLAND */
+INSERT INTO "relation" VALUES('ch',21781);
+INSERT INTO "relation" VALUES('ch',21782);
 INSERT INTO "relation" VALUES('gr',3254); /* GREECE */
 INSERT INTO "relation" VALUES('gr',32634);
 INSERT INTO "relation" VALUES('gr',32635);
