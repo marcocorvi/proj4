@@ -3,7 +3,7 @@
  * @author marco corvi
  * @date jan 2017
  *
- * @brief Proij4 World Magnetic Model (copied from TopoDroid)
+ * @brief Proj4 World Magnetic Model (copied from TopoDroid)
  * --------------------------------------------------------
  *  Copyright This sowftare is distributed under GPL-3.0 or later
  *  See the file COPYING.

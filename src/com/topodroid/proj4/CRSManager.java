@@ -3,7 +3,7 @@
  * @author marco corvi
  * @date jan 2013
  *
- * @brief CRS list
+ * @brief CRS manager
  * --------------------------------------------------------
  *  Copyright This sowftare is distributed under GPL-3.0 or later
  *  See the file COPYING.
@@ -52,12 +52,27 @@ class CRSManager
     mDB  = new CRSdatabase( mContext );
   }
 
+  // CONTINENT
+  ArrayList< String > getContinentNames( ) 
+  {
+    // Log.v("Proj4", "Get Continent Names");
+    return mDB.getContinentNames();
+  }
+
+  long getContinentCode( String name ) { return mDB.getContinentCode( name ); }
+
+  // COUNTRY
   void setCountry( String country ) { mCountry = country; }
 
   String getCountry() { return mCountry; }
 
   String getCountryName() { return mDB.getCountryName( mCountry ); }
 
+  String getCountryCode( String name ) { return mDB.getCountryCode( name ); }
+
+  ArrayList< String > getCountryNames( long  continent ) { return mDB.getCountryNames( continent ); }
+
+  // CRS
   int size() { return mCrs.size(); }
 
   boolean hasCRS( String name )
@@ -67,23 +82,20 @@ class CRSManager
 
   Set<String> getNames() { return mCrs.keySet(); }
 
+  ArrayList<CRS> getCRSs()
+  {
+    ArrayList<CRS> ret = new ArrayList<CRS>();
+    for ( String key : mCrs.keySet() ) {
+      ret.add( (CRS)mCrs.get( key ) );
+    }
+    return ret;
+  }
+
   CRS getCRS( String name )
   {
     if ( name == null ) return null;
     return (CRS)mCrs.get( name );
   }
-
-  String getCountryCode( String name ) { return mDB.getCountryCode( name ); }
-
-  ArrayList< String > getCountryNames( long  continent ) { return mDB.getCountryNames( continent ); }
-
-  ArrayList< String > getContinentNames( ) 
-  {
-    // Log.v("Proj4", "Get Continent Names");
-    return mDB.getContinentNames();
-  }
-
-  long getContinentCode( String name ) { return mDB.getContinentCode( name ); }
 
   String getDescription( String name ) 
   { 
@@ -138,7 +150,7 @@ class CRSManager
   void addCrs( String name, String desc, int digits, boolean custom )
   {
     if ( mCrs.containsKey( name ) ) return;
-    CRS crs = new CRS( name, desc, digits, custom );
+    CRS crs = new CRS( 0, name, desc, digits, custom );
     mCrs.put( name, crs );
   }
 

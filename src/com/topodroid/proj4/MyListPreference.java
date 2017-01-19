@@ -3,10 +3,11 @@
  * @author marco corvi
  * @date jan 2013
  *
- * @brief option list
+ * @brief option list ( copied from TopoDroid )
  * --------------------------------------------------------
  *  Copyright This sowftare is distributed under GPL-3.0 or later
  *  See the file COPYING.
+ * --------------------------------------------------------
  */
 package com.topodroid.proj4;
 

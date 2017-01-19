@@ -1,14 +1,13 @@
 /** @file Proj4CountryDialog.java
  *
  * @author marco corvi
- * @date jan 2013
+ * @date jan 2017
  *
- * @brief CRS list
+ * @brief Country/Continent dialog
  * --------------------------------------------------------
  *  Copyright This sowftare is distributed under GPL-3.0 or later
  *  See the file COPYING.
  * --------------------------------------------------------
- * CHANGES
  */
 package com.topodroid.proj4;
 

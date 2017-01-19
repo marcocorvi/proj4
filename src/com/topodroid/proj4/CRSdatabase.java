@@ -201,7 +201,7 @@ public class CRSdatabase extends DataSetObservable
                                  new String[] { Long.toString(id) },
                                  null, null, null );
      if (cursor.moveToFirst()) {
-       crs = new CRS( cursor.getString(0), cursor.getString(1), (int)cursor.getLong(2), false );
+       crs = new CRS( id, cursor.getString(0), cursor.getString(1), (int)cursor.getLong(2), false );
      }
      if (cursor != null && !cursor.isClosed()) {
        cursor.close();

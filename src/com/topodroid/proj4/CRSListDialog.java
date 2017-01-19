@@ -8,7 +8,6 @@
  *  Copyright This sowftare is distributed under GPL-3.0 or later
  *  See the file COPYING.
  * --------------------------------------------------------
- * CHANGES
  */
 package com.topodroid.proj4;
 
@@ -82,11 +81,14 @@ public class CRSListDialog extends Dialog
     setTitle( R.string.title_crs );
   }
 
-  private void updateList()
+  void updateList()
   {
     mArrayAdapter.clear();
-    for ( String k : mCRS.getNames() ) {
-      mArrayAdapter.add( k );
+    // for ( String k : mCRS.getNames() ) {
+    //   mArrayAdapter.add( k );
+    // }
+    for ( CRS crs : mCRS.getCRSs() ) {
+      mArrayAdapter.add( crs.mEPSG + " " + crs.mName );
     }
   }
  
@@ -96,9 +98,7 @@ public class CRSListDialog extends Dialog
     Button b = (Button) v;
     if ( b == mBTnew ) {
       hide();
-      new CRSNewDialog( mParent, mCRS ).show();
-      show();
-      updateList();
+      new CRSNewDialog( mParent, mCRS, this ).show();
     } else {
       hide();
       dismiss();
@@ -113,8 +113,12 @@ public class CRSListDialog extends Dialog
   {
     String str = ((TextView) view).getText().toString();
     String name = (String) mArrayAdapter.getItem(pos);
-    // Log.v( "Proj4", "item click: pos " + pos + " name " + name + " = " + str );
-    mParent.setCRS( str, mType );
+    int idx = str.indexOf(' ') + 1;
+    String key = str.substring( idx );
+    Log.v( "Proj4", "item click: pos " + pos + " name " + name + " = " + str + " idx " + idx + " " + key );
+
+    // mParent.setCRS( str, mType );
+    mParent.setCRS( key, mType );
     dismiss();
   }
 
@@ -123,9 +127,13 @@ public class CRSListDialog extends Dialog
   {
     String str = ((TextView) view).getText().toString();
     String name = (String) mArrayAdapter.getItem(pos);
-    // Log.v( "Proj4", "item long click: pos " + pos + " name " + name + " = " + str );
-    if ( name != null ) {
-      new CRSEditDialog( mContext, mCRS, name ).show();
+    
+    int idx = str.indexOf(' ') + 1;
+    String key = str.substring( idx );
+    Log.v( "Proj4", "item click: pos " + pos + " name " + name + " = " + str + " idx " + idx + " " + key );
+
+    if ( key != null ) {
+      new CRSEditDialog( mContext, mCRS, this, key ).show();
       return true;
     } else {
       return false;

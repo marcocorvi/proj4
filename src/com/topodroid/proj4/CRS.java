@@ -20,13 +20,15 @@ class CRS
 {
   static final String TAG = "Proj4";
 
-  String mName;
-  String mDesc;
+  long   mEPSG;    // EPSG number
+  String mName;    // "custom" name
+  String mDesc;    // proj4 syntax
   int mDigits;     // digits after the point
   boolean mCustom; // whether the CRS is custom
 
-  CRS( String name, String desc, int digits, boolean custom )
+  CRS( long epsg, String name, String desc, int digits, boolean custom )
   {
+    mEPSG = epsg;
     mName = name;
     mDesc = desc;
     mDigits = digits;

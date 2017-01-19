@@ -8,7 +8,6 @@
  *  Copyright This sowftare is distributed under GPL-3.0 or later
  *  See the file COPYING.
  * --------------------------------------------------------
- * CHANGES
  */
 package com.topodroid.proj4;
 
@@ -28,6 +27,7 @@ public class CRSNewDialog extends Dialog
 {
   private Context mContext;
   private CRSManager mCRS;
+  private CRSListDialog mList;
 
   private EditText mETname;
   private EditText mETdesc;
@@ -35,11 +35,12 @@ public class CRSNewDialog extends Dialog
   private Button   mBtnOK;
   private Button   mBtnCancel;
 
-  public CRSNewDialog( Context context, CRSManager crs )
+  public CRSNewDialog( Context context, CRSManager crs, CRSListDialog list )
   {
     super( context );
     mContext = context;
     mCRS     = crs;
+    mList    = list;
   }
 
 // -------------------------------------------------------------------
@@ -83,6 +84,8 @@ public class CRSNewDialog extends Dialog
           return;
         } 
         mCRS.addCrs( name, desc, d, true );
+        mCRS.saveCRS();
+        mList.updateList();
       }
     }
     dismiss();

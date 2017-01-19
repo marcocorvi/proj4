@@ -3,15 +3,12 @@
  * @author marco corvi
  * @date jan 2013
  *
- * @brief Proj4 preferences
+ * @brief Proj4 main activity
  * --------------------------------------------------------
  *  Copyright This sowftare is distributed under GPL-3.0 or later
  *  See the file COPYING.
  * --------------------------------------------------------
- * CHANGES
- * 20130131 extras for: cs lnt lat [alt] 
- * 20130920 changed convert API extra names: longitude, latitude, altitude, cs_from; added cs_to
- * 20130921 convert API returns longitude, latitude, altitude (in requested CS)
+ * for Long-Lat Z is ellipsoid altitude
  */
 package com.topodroid.proj4;
 
@@ -203,44 +200,61 @@ public class Proj4Activity extends Activity
         } else {
           if ( VERSION.startsWith( version ) ) // FIXME version check
           {
-            mBTmobile2from.setVisibility( View.GONE );
-
-            String cs_from  = mExtras.getString( "cs_from" );
-            String cs_to =  mExtras.getString( "cs_to" );
-            double lng = mExtras.getDouble( "longitude" ); // X
-            double lat = mExtras.getDouble( "latitude" );  // Y
-            double alt = mExtras.getDouble( "altitude" ); // Z
-            // Log.v( TAG, "EXTRA cs_from " + cs_from );
-            // Log.v( TAG, "data " + lng + " " + lat + " " + alt );
-            int d = 2;
-            if ( cs_from != null && mCRSmanager.hasCRS( cs_from ) ) {
-              setCRS( cs_from, TYPE_FROM );
-              // mBTfromcrs.setText( mFromCRS );
-              d = mCRSmanager.getDigits( cs_from );
-              // Log.v( TAG, "set cs from " + cs_from);
-            } 
-            if ( cs_to != null && mCRSmanager.hasCRS( cs_to ) ) {
-              setCRS( cs_to, TYPE_TO );
-              // Log.v( TAG, "set cs to " + cs_to);
-            }
-            String fmt;
-            StringWriter sw = new StringWriter();
-            PrintWriter  pw = new PrintWriter( sw );
-            if ( alt > 0 ) {
-              fmt = "%." + d + "f %." + d + "f + %.2f";
-              pw.format( fmt, lng, lat, alt );
+            mBTmobile2from.setVisibility( View.GONE ); // no MobileTopographer with Intent Request
+            String request = mExtras.getString( "request" );
+            if ( request.equals( "CRS_INPUT_REQUEST" ) ) {
+              mBTtocrs.setText( "Long-Lat" );
+              mBTtocrs.setOnClickListener( null );
+              mETtoX.setOnLongClickListener( null );
+              mETtoY.setOnLongClickListener( null );
+              mBTto2from.setOnClickListener( null );
+              mBTto2map.setOnClickListener( null );
+              mBTto2from.setVisibility( View.GONE );
+              mBTto2map.setVisibility( View.GONE );
+              setCRS( "Long-Lat", TYPE_TO );
+              mResultCode = RESULT_OK;
+            } else if ( request.equals( "CRS_CONVERSION_REQUEST" ) ) {
+              String cs_from  = mExtras.getString( "cs_from" );
+              String cs_to =  mExtras.getString( "cs_to" );
+              double lng = mExtras.getDouble( "longitude" ); // X
+              double lat = mExtras.getDouble( "latitude" );  // Y
+              double alt = mExtras.getDouble( "altitude" ); // Z
+              // Log.v( TAG, "EXTRA cs_from " + cs_from );
+              // Log.v( TAG, "data " + lng + " " + lat + " " + alt );
+              int d = 2;
+              if ( cs_from != null && mCRSmanager.hasCRS( cs_from ) ) {
+                setCRS( cs_from, TYPE_FROM );
+                // mBTfromcrs.setText( mFromCRS );
+                d = mCRSmanager.getDigits( cs_from );
+                // Log.v( TAG, "set cs from " + cs_from);
+              } 
+              if ( cs_to != null && mCRSmanager.hasCRS( cs_to ) ) {
+                setCRS( cs_to, TYPE_TO );
+                // Log.v( TAG, "set cs to " + cs_to);
+              }
+              String fmt;
+              StringWriter sw = new StringWriter();
+              PrintWriter  pw = new PrintWriter( sw );
+              if ( alt > 0 ) {
+                fmt = "%." + d + "f %." + d + "f + %.2f";
+                pw.format( fmt, lng, lat, alt );
+              } else {
+                fmt = "%." + d + "f %." + d + "f";
+                pw.format( fmt, lng, lat );
+              }
+              
+              // mETfrom.setText( sw.getBuffer().toString() );
+              mETfromX.setText( coord2text( lng, d ) );
+              mETfromY.setText( coord2text( lat, d ) );
+              mETfromZ.setText( coord2text( alt, 0 ) );
+              mResultCode = RESULT_OK;
             } else {
-              fmt = "%." + d + "f %." + d + "f";
-              pw.format( fmt, lng, lat );
+              Log.e( TAG, "EXTRA bad request " + request );
+              mResultCode = RESULT_CANCELED;
+              finish();
             }
-            
-            // mETfrom.setText( sw.getBuffer().toString() );
-            mETfromX.setText( coord2text( lng, d ) );
-            mETfromY.setText( coord2text( lat, d ) );
-            mETfromZ.setText( coord2text( alt, 0 ) );
-            mResultCode = RESULT_OK;
           } else {
-            Log.e( TAG, "EXTRA bad varsion " + version );
+            Log.e( TAG, "EXTRA bad version " + version );
             mResultCode = RESULT_CANCELED;
             finish();
           }
@@ -645,7 +659,7 @@ public class Proj4Activity extends Activity
     }
     if ( kcf >= 2 || kct >= 2 ) {
       try {
-        FileWriter fw = new FileWriter( filename );
+        FileWriter fw = new FileWriter( filename, true );
         BufferedWriter bw = new BufferedWriter( fw );
         bw.write( sw.getBuffer().toString() );
         bw.flush();

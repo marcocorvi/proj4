@@ -8,7 +8,7 @@ DROP TABLE relation;
 COMMIT;
 BEGIN TRANSACTION;
 CREATE TABLE config (key TEXT, value TEXT );
-INSERT INTO "config" VALUES('version','2');
+INSERT INTO "config" VALUES('version','3');
 COMMIT;
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
@@ -69,10 +69,19 @@ INSERT INTO "crs" VALUES(27574, 'Lambert zone IV', '+proj=lcc +lat_1=42.16500000
 /* SWITZERLAND */
 INSERT INTO "crs" VALUES(21781,'CH1903+ / LV95','+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs',0);
 INSERT INTO "crs" VALUES(21782,'CH1903 / LV03','+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs',0);
-/* 
+/* POLAND */
+INSERT INTO "crs" VALUES(3120, 'Poland zone I', '+proj=sterea +lat_0=50.625 +lon_0=21.08333333333333 +k=0.9998 +x_0=4637000 +y_0=5467000 +ellps=krass +towgs84=33.4,-146.6,-76.3,-0.359,-0.053,0.844,-0.84 +units=m +no_defs', 2 );
+INSERT INTO "crs" VALUES(2172, 'Poland zone II', '+proj=sterea +lat_0=53.00194444444445 +lon_0=21.50277777777778 +k=0.9998 +x_0=4603000 +y_0=5806000 +ellps=krass +towgs84=33.4,-146.6,-76.3,-0.359,-0.053,0.844,-0.84 +units=m +no_defs', 2 );
+INSERT INTO "crs" VALUES(2173, 'Poland zone III', '+proj=sterea +lat_0=53.58333333333334 +lon_0=17.00833333333333 +k=0.9998 +x_0=3501000 +y_0=5999000 +ellps=krass +towgs84=33.4,-146.6,-76.3,-0.359,-0.053,0.844,-0.84 +units=m +no_defs', 2 );
+INSERT INTO "crs" VALUES(2174, 'Poland zone IV', '+proj=sterea +lat_0=51.67083333333333 +lon_0=16.67222222222222 +k=0.9998 +x_0=3703000 +y_0=5627000 +ellps=krass +towgs84=33.4,-146.6,-76.3,-0.359,-0.053,0.844,-0.84 +units=m +no_defs', 2 );
+INSERT INTO "crs" VALUES(2175, 'Poland zone V', '+proj=tmerc +lat_0=0 +lon_0=18.95833333333333 +k=0.999983 +x_0=237000 +y_0=-4700000 +ellps=krass +towgs84=33.4,-146.6,-76.3,-0.359,-0.053,0.844,-0.84 +units=m +no_defs', 2 );
+/* IRAN */
+INSERT INTO "crs" VALUES(2110, 'Tuhirangi 2000', '+proj=tmerc +lat_0=-39.51222222222222 +lon_0=175.64 +k=1 +x_0=400000 +y_0=800000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs', 2 );
+INSERT INTO "crs" VALUES(27210, 'Tuhirangi Circuit', '+proj=tmerc +lat_0=-39.51247038888889 +lon_0=175.6400368055556 +k=1 +x_0=300000 +y_0=700000 +ellps=intl +datum=nzgd49 +units=m +no_defs', 2 );
+INSERT INTO "crs" VALUES(2057, 'Rassadiran / Nakhl e Taqi', '+proj=omerc +lat_0=27.51882880555555 +lonc=52.60353916666667 +alpha=0.5716611944444444 +k=0.999895934 +x_0=658377.437 +y_0=3044969.194 +ellps=intl +towgs84=-133.63,-157.5,-158.62,0,0,0,0 +units=m +no_defs', 2 );
+/*
 INSERT INTO "crs" VALUES( );
-INSERT INTO "crs" VALUES( );
-INSERT INTO "crs" VALUES( );
+INSERT INTO "relation" VALUES( );
 */
 COMMIT;
 PRAGMA foreign_keys=OFF;
@@ -113,6 +122,12 @@ INSERT INTO "relation" VALUES('it',23032);
 INSERT INTO "relation" VALUES('it',23033);
 INSERT INTO "relation" VALUES('it',32632);
 INSERT INTO "relation" VALUES('it',32633);
+INSERT INTO "relation" VALUES('po',3120); /* POLAND */
+INSERT INTO "relation" VALUES('po',2172);
+INSERT INTO "relation" VALUES('po',2173);
+INSERT INTO "relation" VALUES('po',2174);
+INSERT INTO "relation" VALUES('po',2175);
+INSERT INTO "relation" VALUES('po',32634);
 INSERT INTO "relation" VALUES('de',2541); /* GERMANY */
 INSERT INTO "relation" VALUES('de',2542);
 INSERT INTO "relation" VALUES('de',2543);
@@ -151,8 +166,11 @@ INSERT INTO "relation" VALUES('es',3629);
 INSERT INTO "relation" VALUES('es',32629);
 INSERT INTO "relation" VALUES('es',32630);
 INSERT INTO "relation" VALUES('es',32631);
-INSERT INTO "relation" VALUES('pt',32629); /* PORTGAL */
+INSERT INTO "relation" VALUES('pt',32629); /* PORTUGAL */
 INSERT INTO "relation" VALUES('ro',2546);  /* ROMANIA */
 INSERT INTO "relation" VALUES('uk',32630); /* UNITED KINGDOM */
 INSERT INTO "relation" VALUES('uk',32631);
+INSERT INTO "relation" VALUES('ir',2110); /* IRAN */
+INSERT INTO "relation" VALUES('ir',27210);
+INSERT INTO "relation" VALUES('ir',2057);
 COMMIT;
