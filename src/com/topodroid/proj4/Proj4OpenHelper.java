@@ -35,7 +35,7 @@ public class Proj4OpenHelper extends SQLiteOpenHelper
   // IMPORTANT 
   // when theCRS database is updated the version must be incremented both here
   // and in the database config table. The two values must agree.
-  private String DB_VERSION = "3"; 
+  private String DB_VERSION = "5"; 
 
   private Context mContext;
   public SQLiteDatabase mDB;

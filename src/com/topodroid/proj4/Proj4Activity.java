@@ -321,8 +321,7 @@ public class Proj4Activity extends Activity
     @Override
     public boolean onLongClick( View view )
     {
-      if ( view.getId() == R.id.from_x || view.getId() == R.id.to_x 
-        || view.getId() == R.id.from_y || view.getId() == R.id.to_y ) {
+      if ( view.getId() == R.id.from_x || view.getId() == R.id.from_y ) {
         EditText et = (EditText) view;
         String data = et.getText().toString();
         String[] vals = data.split(" ");
@@ -343,6 +342,21 @@ public class Proj4Activity extends Activity
           }
         }
         et.setText( sw.getBuffer().toString() );
+        return true;
+      } else if ( view.getId() == R.id.to_x || view.getId() == R.id.to_y ) {
+        EditText et = (EditText) view;
+        // int sdk = android.os.Build.VERSION.SDK_INT;
+        // if ( sdk < android.os.Build.VERSION_CODES.HONEYCOMB ) {
+          android.text.ClipboardManager clipboard =
+            (android.text.ClipboardManager)getSystemService( CLIPBOARD_SERVICE );
+          clipboard.setText( et.getText() );
+          Toast.makeText(this, "Copied " + et.getText(), Toast.LENGTH_SHORT).show();
+        // } else {
+        //   android.content.ClipboardManager clipboard =
+        //     (android.content.ClipboardManager)getSystemService( CLIPBOARD_SERVICE );
+        //   android.content.ClipData clip = android.content.ClipData.newPlainText("COPY", et.getText() );
+        //   clipboard.setPrimaryClip( clip );
+        // }
         return true;
       }
       return false;

@@ -42,9 +42,8 @@ import java.util.HashMap;
 
 public class CRSdatabase extends DataSetObservable
 {
-
-  static final String DB_VERSION = "10";
-  static final int DATABASE_VERSION = 10;
+  // static final String DB_VERSION = "10";
+  // static final int DATABASE_VERSION = 10;
 
   private static final String CRS_TABLE     = "crs";
   private static final String COUNTRY_TABLE = "country";
