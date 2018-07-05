@@ -76,6 +76,7 @@ public class Proj4Activity extends Activity
     private double  mResultLong;
     private double  mResultLat;
     private double  mResultAlt;
+    private int     mResultDecimals;
     private String  mResultCS;
 
     private Button   mBTfromcrs;
@@ -237,10 +238,10 @@ public class Proj4Activity extends Activity
               PrintWriter  pw = new PrintWriter( sw );
               if ( alt > 0 ) {
                 fmt = "%." + d + "f %." + d + "f + %.2f";
-                pw.format( fmt, lng, lat, alt );
+                pw.format(Locale.US, fmt, lng, lat, alt );
               } else {
                 fmt = "%." + d + "f %." + d + "f";
-                pw.format( fmt, lng, lat );
+                pw.format(Locale.US, fmt, lng, lat );
               }
               
               // mETfrom.setText( sw.getBuffer().toString() );
@@ -299,7 +300,7 @@ public class Proj4Activity extends Activity
               s = d + m / 60.0f + s / 3600.0f;
               StringWriter sw = new StringWriter();
               PrintWriter  pw = new PrintWriter( sw );
-              pw.format( "%.8f", s );
+              pw.format(Locale.US, "%.8f", s );
               return sw.getBuffer().toString();
             }
           }
@@ -311,7 +312,7 @@ public class Proj4Activity extends Activity
           s = (s-m)*60;
           StringWriter sw1 = new StringWriter();
           PrintWriter  pw1 = new PrintWriter( sw1 );
-          pw1.format( "%dd%02d\'%05.2f\"", d, m, s );
+          pw1.format(Locale.US, "%dd%02d\'%05.2f\"", d, m, s );
           return sw1.getBuffer().toString();
         }
       }
@@ -334,9 +335,9 @@ public class Proj4Activity extends Activity
               vals[k] = switchUnits( vals[k] );
             }
             if ( cnt == 0 ) {
-              pw.format("%s", vals[k] );
+              pw.format(Locale.US,"%s", vals[k] );
             } else {
-              pw.format(" %s", vals[k] );
+              pw.format(Locale.US," %s", vals[k] );
             }
             ++cnt;
           }
@@ -383,6 +384,7 @@ public class Proj4Activity extends Activity
               result.putExtra( "longitude", mResultLong );
               result.putExtra( "latitude",  mResultLat );
               result.putExtra( "altitude",  mResultAlt );
+              result.putExtra( "decimals",  mResultDecimals );
               result.putExtra( "cs_to", mToCRS );
             }
             setResult( mResultCode, result );
@@ -496,9 +498,9 @@ public class Proj4Activity extends Activity
       StringWriter sw = new StringWriter();
       PrintWriter  pw = new PrintWriter( sw );
       if ( kc == 2 ) {
-        pw.format( fmt2, c[0], c[1] );
+        pw.format(Locale.US, fmt2, c[0], c[1] );
       } else {
-        pw.format( fmt3, c[0], c[1], c[2] );
+        pw.format(Locale.US, fmt3, c[0], c[1], c[2] );
       }
       return sw.getBuffer().toString();
     }
@@ -508,7 +510,7 @@ public class Proj4Activity extends Activity
       String fmt = "%." + d + "f";
       StringWriter sw = new StringWriter();
       PrintWriter  pw = new PrintWriter( sw );
-      pw.format( fmt, c );
+      pw.format(Locale.US, fmt, c );
       return sw.getBuffer().toString();
     }
 
@@ -581,14 +583,14 @@ public class Proj4Activity extends Activity
       PJ to_pj   = getCrsPJ( tCrs );
       if ( from_pj == null || to_pj == null ) return false;
       
-      int d = mCRSmanager.getDigits( tCrs );
+      mResultDecimals = mCRSmanager.getDigits( tCrs );
       // Log.v( TAG, "convert " + fCrs + " -> " + tCrs + ": " + coords_str);
       
       double[] c = new double[3];
       int kc = edittext2coords( from, c );
       setResultValues( c, kc );
 
-      String res = doConvert( from_pj, to_pj, d, kc, c );
+      String res = doConvert( from_pj, to_pj, mResultDecimals, kc, c );
       setResultValues( c, kc );
       return true;
     }

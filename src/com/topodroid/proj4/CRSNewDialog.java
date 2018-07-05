@@ -15,10 +15,13 @@ import android.app.Dialog;
 import android.os.Bundle;
 
 import android.content.Context;
+import android.content.Intent;
 
 import android.widget.EditText;
 import android.widget.Button;
 import android.view.View;
+
+import android.net.Uri;
 
 // import android.widget.Toast;
 
@@ -28,17 +31,20 @@ public class CRSNewDialog extends Dialog
   private Context mContext;
   private CRSManager mCRS;
   private CRSListDialog mList;
+  private Proj4Activity mParent;
 
   private EditText mETname;
   private EditText mETdesc;
   private EditText mETdigits;
   private Button   mBtnOK;
   private Button   mBtnCancel;
+  private Button   mBtnEpsg;
 
-  public CRSNewDialog( Context context, CRSManager crs, CRSListDialog list )
+  public CRSNewDialog( Context context, Proj4Activity parent, CRSManager crs, CRSListDialog list )
   {
     super( context );
     mContext = context;
+    mParent  = parent;
     mCRS     = crs;
     mList    = list;
   }
@@ -53,10 +59,12 @@ public class CRSNewDialog extends Dialog
     mETdesc = (EditText) findViewById(R.id.crs_desc);
     mETdigits = (EditText) findViewById(R.id.crs_digits);
 
-    mBtnOK = (Button) findViewById(R.id.button_ok);
+    mBtnOK     = (Button) findViewById(R.id.button_ok);
+    mBtnEpsg   = (Button) findViewById(R.id.button_epsg);
     mBtnCancel = (Button) findViewById(R.id.button_cancel);
 
     mBtnOK.setOnClickListener( this );
+    mBtnEpsg.setOnClickListener( this );
     mBtnCancel.setOnClickListener( this );
   }
 
@@ -87,6 +95,10 @@ public class CRSNewDialog extends Dialog
         mCRS.saveCRS();
         mList.updateList();
       }
+    } else if ( b == mBtnEpsg ) {
+      Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse("http://epsg.io") );
+      mParent.startActivity( intent );
+      return;	    
     }
     dismiss();
   }

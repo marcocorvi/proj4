@@ -98,7 +98,7 @@ public class CRSListDialog extends Dialog
     Button b = (Button) v;
     if ( b == mBTnew ) {
       hide();
-      new CRSNewDialog( mParent, mCRS, this ).show();
+      new CRSNewDialog( mParent, mParent, mCRS, this ).show();
     } else {
       hide();
       dismiss();
