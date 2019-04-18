@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.topodroid.proj4"
-          android:versionCode="10113"
-          android:versionName="1.1.13">
+          android:versionCode="10114"
+          android:versionName="1.1.14">
     <uses-sdk android:minSdkVersion="8" />
     <uses-sdk android:targetSdkVersion="26" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
