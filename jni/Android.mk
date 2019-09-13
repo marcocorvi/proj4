@@ -19,7 +19,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 TARGET_PLATFORM := android-8
-TARGET_ARCH_ABI := armeabi armeabi-v7a
+TARGET_ARCH_ABI := armeabi armeabi-v7a arm64-v8a x86_64
 # TARGET_ARCH_ABI := armeabi-v7a
 # TARGET_ARCH_ABI := armeabi
 
