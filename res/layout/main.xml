@@ -21,14 +21,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dip"
-        android:text="8.168112"
+        android:hint="0.00"
         />
     <EditText
         android:id="@+id/from_y"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
-        android:text="44.389197"
+        android:hint="0.00"
         />
     <EditText
         android:id="@+id/from_z"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
         android:inputType="numberDecimal"
-        android:text="250"
+        android:hint="0"
         />
     <ImageButton
         android:id="@+id/from2to"
