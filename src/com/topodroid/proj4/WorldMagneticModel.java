@@ -48,8 +48,9 @@ class WorldMagneticModel
     loadEGM9615( context );
 
     mModel = new MagModel( numTerms, nMax, nMax );
-    mModel.epoch = 2015.0;
-    mModel.CoefficientFileEndDate = mModel.epoch + 5;
+    mModel.setEpoch( mStartEpoch );
+    // mModel.epoch = 2015.0;
+    // mModel.CoefficientFileEndDate = mModel.epoch + 5;
     mModel.setCoeffs( mWmmCoeff );
     mEllip = new MagEllipsoid(); // default values
     mGeoid = new MagGeoid( mGeoidHeightBuffer );
@@ -57,12 +58,14 @@ class WorldMagneticModel
 
   MagElement computeMagElement( double latitude, double longitude, double height, int year, int month, int day )
   {
+    // Log.v("Proj4", "compute " + year + " " + month + " " + day );
     MagDate date = new MagDate( year, month, day );
     return doComputeMagElement( latitude, longitude, height, date );
   }
 
   MagElement computeMagElement( double latitude, double longitude, double height, double dec_year )
   {
+    // Log.v("Proj4", "compute " + dec_year );
     MagDate date = new MagDate( dec_year );
     return doComputeMagElement( latitude, longitude, height, date );
   }

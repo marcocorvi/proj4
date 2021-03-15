@@ -32,6 +32,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import android.text.InputType;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -201,7 +203,16 @@ public class Proj4Activity extends Activity
         } else {
           if ( VERSION.startsWith( version ) ) // FIXME version check
           {
+            mBTfromcrs.setOnClickListener( null );
+            mBTto2from.setOnClickListener( null );
+            mBTto2map.setOnClickListener( null );
+            mBTto2from.setVisibility( View.GONE );
+            mBTto2map.setVisibility( View.GONE );
             mBTmobile2from.setVisibility( View.GONE ); // no MobileTopographer with Intent Request
+            mETtoX.setInputType( InputType.TYPE_NULL );
+            mETtoY.setInputType( InputType.TYPE_NULL );
+            mETtoZ.setInputType( InputType.TYPE_NULL );
+
             String request = mExtras.getString( "request" );
             if ( request.equals( "CRS_INPUT_REQUEST" ) ) {
               mBTtocrs.setText( "Long-Lat" );
@@ -434,7 +445,8 @@ public class Proj4Activity extends Activity
         } 
         if ( ok ) {
           // mHGeo = mWMM.ellipsoidToGeoid( mLat, mLng, mHEll ); 
-          MagElement elem = mWMM.computeMagElement( c[1], c[0], c[2], year, month, day );
+          // NOTE MAG month Jan=1
+          MagElement elem = mWMM.computeMagElement( c[1], c[0], c[2], year, month+1, day );
           StringWriter sw = new StringWriter();
           PrintWriter  pw = new PrintWriter( sw );
           pw.format( Locale.US, "%.3f", elem.Decl );

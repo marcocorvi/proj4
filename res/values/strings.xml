@@ -67,6 +67,12 @@ Buttons:\n
 - marker: view point on maps\n
 - topographer: import coordinates from MobileTopographer point list\n
 - compass: magnetic declination of left coordinates\n
+\n
+Credits for Proj4 library:\n
+Gerald Evenden, Brent Fraser, Chris Stuber, Craig Bruce, Victor Osipkov, Andrea Antonello, and Frank Warmerdam.\n
+\n
+Credist for Java port:\n
+Andrea Antonello, Martin Desruisseaux\n
 </string>
 
 </resources>

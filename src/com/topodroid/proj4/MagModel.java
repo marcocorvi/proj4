@@ -36,6 +36,12 @@ class  MagModel
   double[] Secular_Var_Coeff_G; /* CD - Gauss coefficients of secular geomagnetic model (nT/yr) */
   double[] Secular_Var_Coeff_H; /* CD - Gauss coefficients of secular geomagnetic model (nT/yr) */
 
+  void setEpoch( MagDate date )
+  {
+    epoch = date.DecimalYear;
+    CoefficientFileEndDate = epoch + 5;
+  }
+
   void setCoeffs( WMMcoeff[] data )
   {
 	int len = data.length;
