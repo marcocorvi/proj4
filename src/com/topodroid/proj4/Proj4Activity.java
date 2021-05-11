@@ -203,9 +203,6 @@ public class Proj4Activity extends Activity
         } else {
           if ( VERSION.startsWith( version ) ) // FIXME version check
           {
-            mBTfromcrs.setOnClickListener( null );
-            mBTto2from.setOnClickListener( null );
-            mBTto2map.setOnClickListener( null );
             mBTto2from.setVisibility( View.GONE );
             mBTto2map.setVisibility( View.GONE );
             mBTmobile2from.setVisibility( View.GONE ); // no MobileTopographer with Intent Request
@@ -226,6 +223,12 @@ public class Proj4Activity extends Activity
               setCRS( "Long-Lat", TYPE_TO );
               mResultCode = RESULT_OK;
             } else if ( request.equals( "CRS_CONVERSION_REQUEST" ) ) {
+              mBTfromcrs.setOnClickListener( null );
+              mBTto2from.setOnClickListener( null );
+              mBTto2map.setOnClickListener( null );
+              mETfromX.setInputType( InputType.TYPE_NULL );
+              mETfromY.setInputType( InputType.TYPE_NULL );
+              mETfromZ.setInputType( InputType.TYPE_NULL );
               String cs_from  = mExtras.getString( "cs_from" );
               String cs_to =  mExtras.getString( "cs_to" );
               double lng = mExtras.getDouble( "longitude" ); // X
