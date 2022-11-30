@@ -67,19 +67,25 @@ public class Proj4Activity extends Activity
     private static final String VERSION = "1.1.0";  // version for the Launch intent
     // private static final String EXPORT_FILENAME = "/sdcard/proj4.txt";
 
+    private static final int RESULT_NONE  = 0; // result type
+    private static final int RESULT_INPUT = 1;
+    private static final int RESULT_CONV  = 2;
+
     static final int TYPE_FROM = 0;
     static final int TYPE_TO   = 1;
 
     private CRSManager mCRSmanager;
     private String  mCountry = null;
     private Bundle  mExtras;
-    private boolean mOnResult;
+    private boolean mOnResult   = false;
+    private int     mResultType = RESULT_NONE;
     private int     mResultCode;
     private double  mResultLong;
     private double  mResultLat;
     private double  mResultAlt;
     private int     mResultDecimals;
     private String  mResultCS;
+    private double  mConvergence = 0.0;
 
     private Button   mBTfromcrs;
     private Button   mBTtocrs;
@@ -200,6 +206,7 @@ public class Proj4Activity extends Activity
         String version  = mExtras.getString( "version" );
         if ( version == null ) {
           mOnResult = false;
+          mResultType = RESULT_NONE;
         } else {
           if ( VERSION.startsWith( version ) ) // FIXME version check
           {
@@ -212,6 +219,7 @@ public class Proj4Activity extends Activity
 
             String request = mExtras.getString( "request" );
             if ( request.equals( "CRS_INPUT_REQUEST" ) ) {
+              mResultType = RESULT_INPUT;
               mBTtocrs.setText( "Long-Lat" );
               mBTtocrs.setOnClickListener( null );
               mETtoX.setOnLongClickListener( null );
@@ -223,6 +231,7 @@ public class Proj4Activity extends Activity
               setCRS( "Long-Lat", TYPE_TO );
               mResultCode = RESULT_OK;
             } else if ( request.equals( "CRS_CONVERSION_REQUEST" ) ) {
+              mResultType = RESULT_CONV;
               mBTfromcrs.setOnClickListener( null );
               mBTto2from.setOnClickListener( null );
               mBTto2map.setOnClickListener( null );
@@ -291,7 +300,7 @@ public class Proj4Activity extends Activity
       setCRSprefs();
     }
 
-    private boolean isDDMMSS( String data )
+    static private boolean isDDMMSS( String data )
     {
       int len = data.length();
       if ( len > 4 ) len = 4;
@@ -301,7 +310,7 @@ public class Proj4Activity extends Activity
       return false;
     }
 
-    String switchUnits( String data ) 
+    static String switchUnits( String data ) 
     {
       int len = data.length();
       for ( int k=0; k<len; ++k ) {
@@ -399,6 +408,7 @@ public class Proj4Activity extends Activity
               result.putExtra( "latitude",  mResultLat );
               result.putExtra( "altitude",  mResultAlt );
               result.putExtra( "decimals",  mResultDecimals );
+              if ( mResultType == RESULT_CONV ) result.putExtra( "convergence",  mConvergence );
               result.putExtra( "cs_to", mToCRS );
             }
             setResult( mResultCode, result );
@@ -419,6 +429,10 @@ public class Proj4Activity extends Activity
         double[] coords = new double[3];
         if ( convert( mFromCRS, "Long-Lat", mETfromX, mETfromY, mETfromZ, coords ) ) {
           Uri uri = Uri.parse( "geo:" + coords[1] + "," + coords[0] + "?q=" + coords[1] + "," + coords[0] );
+          // Log.v("Proj4", "latitude " + coords[1] + " longitude " + coords[0] );
+          // Uri uri = Uri.parse( "google.navigation:q=" + coords[1] + "," + coords[0] ); // Google-maps
+          // Uri uri = Uri.parse( "here.directions://v1.0/mylocation/" + coords[1] + "," + coords[0] + "?m=w" ); // hereWeGo
+          // Uri uri = Uri.parse( "https://waze.com/ul?ll=" + coords[1] + "," + coords[0] + "&amp;navigate=yes" ); // waze
           startActivity( new Intent( Intent.ACTION_VIEW, uri ) );
         } else {
           Toast.makeText(this, "Failed coordinate conversion", Toast.LENGTH_SHORT );
@@ -461,7 +475,7 @@ public class Proj4Activity extends Activity
       }
     }
 
-    int edittext2coords( EditText et, double[] c )
+    static int edittext2coords( EditText et, double[] c )
     {
       String coords_str = et.getText().toString().trim();
       String[] vals = coords_str.split(" ");
@@ -482,7 +496,7 @@ public class Proj4Activity extends Activity
       return kc;
     }
  
-    int edittext2coords( EditText etx, EditText ety, EditText etz, double[] c )
+    static int edittext2coords( EditText etx, EditText ety, EditText etz, double[] c )
     {
       if ( etx.getText() == null ) return 0;
       if ( ety.getText() == null ) return 0;
@@ -506,7 +520,7 @@ public class Proj4Activity extends Activity
       return kc;
     }
   
-    String coords2text( double[] c, int kc, int d )
+    static String coords2text( double[] c, int kc, int d )
     {
       String fmt2 = "%." + d + "f %." + d + "f";
       String fmt3 = fmt2 + " %.2f";                // format-3
@@ -520,7 +534,7 @@ public class Proj4Activity extends Activity
       return sw.getBuffer().toString();
     }
 
-    String coord2text( double c, int d )
+    static String coord2text( double c, int d )
     {
       String fmt = "%." + d + "f";
       StringWriter sw = new StringWriter();
@@ -546,6 +560,7 @@ public class Proj4Activity extends Activity
     // coords[] must have been initialized with values in fCrs
     boolean convert( String fCrs, String tCrs, double coords[] )
     {
+      // Log.v("PROJ4", "convert array in place");
       PJ from_pj = getCrsPJ( fCrs );
       PJ to_pj   = getCrsPJ( tCrs );
       if ( from_pj == null || to_pj == null ) return false;
@@ -555,9 +570,9 @@ public class Proj4Activity extends Activity
       return true;
     }
 
-    boolean convert( String fCrs, String tCrs, EditText fromX, EditText fromY, EditText fromZ,
-                                            double coords[] )
+    boolean convert( String fCrs, String tCrs, EditText fromX, EditText fromY, EditText fromZ, double coords[] )
     {
+      // Log.v("PROJ4", "convert XYZ to array");
       PJ from_pj = getCrsPJ( fCrs );
       PJ to_pj   = getCrsPJ( tCrs );
       if ( from_pj == null || to_pj == null ) return false;
@@ -573,18 +588,28 @@ public class Proj4Activity extends Activity
     boolean convert( String fCrs, String tCrs, EditText fromX, EditText fromY, EditText fromZ,
                                             EditText toX, EditText toY, EditText toZ )
     {
+      // Log.v("PROJ4", "convert XYZ to XYZ");
       PJ from_pj = getCrsPJ( fCrs );
       PJ to_pj   = getCrsPJ( tCrs );
       if ( from_pj == null || to_pj == null ) return false;
 
       int d = mCRSmanager.getDigits( tCrs );
-      double[] c = new double[3];
+      double[] c  = new double[3];
+      double[] cc = new double[3];
       int kc = edittext2coords( fromX, fromY, fromZ, c );
-      // Log.v(TAG, "from coords " + c[0] + " " + c[1] + " " + c[2] + " kc " + kc );
+      // Log.v("PROJ4", "from coords " + c[0] + " " + c[1] + " " + c[2] + " kc " + kc );
       setResultValues( c, kc );
+      for ( int k=0; k<3; ++k ) cc[k] = c[k];
+      cc[1] += 0.00001;
 
       String res = doConvert( from_pj, to_pj, d, kc, c );
       setResultValues( c, kc );
+      // Log.v("PROJ4", " coords " + c[0] + " " + c[1] + " " + c[2] );
+      doConvert( from_pj, to_pj, d, kc, cc );
+      // Log.v("PROJ4", " coords " + cc[0] + " " + cc[1] + " " + cc[2] );
+      // Log.v("PROJ4", "Convergence dX " + (cc[0] - c[0]) + " dY " + (cc[1] - c[1]) );
+      mConvergence = Math.atan2( c[0] - cc[0], cc[1] - c[1] ) * Math.PI / 180.0;
+      // Log.v("PROJ4", "convergence " + mConvergence );
 
       toX.setText( coord2text(c[0], d) );
       toY.setText( coord2text(c[1], d) );
@@ -594,6 +619,7 @@ public class Proj4Activity extends Activity
 
     boolean convert( String fCrs, String tCrs, EditText from, EditText to )
     {
+      // Log.v("PROJ4", "convert text to text");
       PJ from_pj = getCrsPJ( fCrs );
       PJ to_pj   = getCrsPJ( tCrs );
       if ( from_pj == null || to_pj == null ) return false;
