@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.topodroid.proj4"
-          android:versionCode="10126"
-          android:versionName="1.1.26"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.topodroid.proj4"
+    android:installLocation="auto"
+    android:versionCode="10127"
+    android:versionName="1.1.27"
     >
-    <uses-sdk android:minSdkVersion="8" />
-    <uses-sdk android:targetSdkVersion="30" />
+    <uses-sdk 
+       android:minSdkVersion="8" 
+       android:targetSdkVersion="33"
+       tools:ignore="GradleOverrides,OldTargetApi"
+    />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
           android:label="@string/app_name"
           android:icon="@mipmap/ic_launcher" >
         <activity android:name="com.topodroid.proj4.Proj4Activity"
-                  android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="Proj4.intent.action.Launch" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+          android:label="@string/app_name"
+          android:exported="true"
+          >
+          <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+          </intent-filter>
+          <intent-filter>
+            <action android:name="Proj4.intent.action.Launch" />
+            <category android:name="android.intent.category.DEFAULT" />
+          </intent-filter>
         </activity>
         <activity android:name="com.topodroid.proj4.Proj4Preferences"
                   android:label="@string/app_name">
