@@ -85,7 +85,9 @@ public class Proj4Activity extends Activity
     private double  mResultAlt;
     private int     mResultDecimals;
     private String  mResultCS;
-    private double  mConvergence = 0.0;
+    private double  mConvergence  = 0.0;
+    private double  mMeterToUnits = 1.0;
+    private double  mMeterToVUnits = 1.0;
 
     private Button   mBTfromcrs;
     private Button   mBTtocrs;
@@ -231,6 +233,7 @@ public class Proj4Activity extends Activity
               setCRS( "Long-Lat", TYPE_TO );
               mResultCode = RESULT_OK;
             } else if ( request.equals( "CRS_CONVERSION_REQUEST" ) ) {
+              Log.v( TAG, "conversion request" );
               mResultType = RESULT_CONV;
               mBTfromcrs.setOnClickListener( null );
               mBTto2from.setOnClickListener( null );
@@ -408,7 +411,11 @@ public class Proj4Activity extends Activity
               result.putExtra( "latitude",  mResultLat );
               result.putExtra( "altitude",  mResultAlt );
               result.putExtra( "decimals",  mResultDecimals );
-              if ( mResultType == RESULT_CONV ) result.putExtra( "convergence",  mConvergence );
+              if ( mResultType == RESULT_CONV ) {
+                result.putExtra( "convergence",  mConvergence );
+                result.putExtra( "meterstounits",  mMeterToUnits );
+                result.putExtra( "meterstovunits",  mMeterToVUnits );
+              }
               result.putExtra( "cs_to", mToCRS );
             }
             setResult( mResultCode, result );
@@ -588,7 +595,7 @@ public class Proj4Activity extends Activity
     boolean convert( String fCrs, String tCrs, EditText fromX, EditText fromY, EditText fromZ,
                                             EditText toX, EditText toY, EditText toZ )
     {
-      // Log.v("PROJ4", "convert XYZ to XYZ");
+      // Log.v( TAG, "convert XYZ to XYZ");
       PJ from_pj = getCrsPJ( fCrs );
       PJ to_pj   = getCrsPJ( tCrs );
       if ( from_pj == null || to_pj == null ) return false;
@@ -604,12 +611,13 @@ public class Proj4Activity extends Activity
 
       String res = doConvert( from_pj, to_pj, d, kc, c );
       setResultValues( c, kc );
-      // Log.v("PROJ4", " coords " + c[0] + " " + c[1] + " " + c[2] );
+      // Log.v( TAG, " coords " + c[0] + " " + c[1] + " " + c[2] );
       doConvert( from_pj, to_pj, d, kc, cc );
-      // Log.v("PROJ4", " coords " + cc[0] + " " + cc[1] + " " + cc[2] );
-      // Log.v("PROJ4", "Convergence dX " + (cc[0] - c[0]) + " dY " + (cc[1] - c[1]) );
-      mConvergence = Math.atan2( c[0] - cc[0], cc[1] - c[1] ) * Math.PI / 180.0;
-      // Log.v("PROJ4", "convergence " + mConvergence );
+      // Log.v( TAG, " coords " + cc[0] + " " + cc[1] + " " + cc[2] );
+      mConvergence = Math.atan2( c[0] - cc[0], cc[1] - c[1] ) * 180.0 / Math.PI;
+      // Log.v( TAG, "Convergence dX " + (cc[0] - c[0]) + " dY " + (cc[1] - c[1]) + ": " + mConvergence );
+      mMeterToUnits = 1.0 / to_pj.getLinearUnitToMetre( false ); // horizontal
+      mMeterToVUnits = 1.0 / to_pj.getLinearUnitToMetre( true ); // vertical
 
       toX.setText( coord2text(c[0], d) );
       toY.setText( coord2text(c[1], d) );
