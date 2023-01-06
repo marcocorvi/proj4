@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.topodroid.proj4"
     android:installLocation="auto"
-    android:versionCode="10128"
-    android:versionName="1.1.28"
+    android:versionCode="10129"
+    android:versionName="1.1.29"
     >
     <uses-sdk 
        android:minSdkVersion="8" 
