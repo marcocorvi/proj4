@@ -143,6 +143,8 @@ public class CRSdatabase extends DataSetObservable
      return ret;
    }
 
+   /** @return the list of continent names
+    */
    public ArrayList< String > getContinentNames( )
    {
      // Log.v("Proj4", "get continent names");
@@ -177,6 +179,9 @@ public class CRSdatabase extends DataSetObservable
      return ret;
    }
 
+   /** @return the country code given the country name
+    * @param name   country name
+    */
    public String getCountryCode( String name )
    {
      String ret = null;
@@ -190,6 +195,9 @@ public class CRSdatabase extends DataSetObservable
      return ret;
    }
 
+   /** @return a CRS given its EPSG number
+    * @param id   EPSG number
+    */
    public CRS getCRS( long id )
    {
      CRS crs = null;

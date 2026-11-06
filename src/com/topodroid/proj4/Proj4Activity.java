@@ -221,6 +221,7 @@ public class Proj4Activity extends Activity
 
             String request = mExtras.getString( "request" );
             if ( request.equals( "CRS_INPUT_REQUEST" ) ) {
+              Log.v( TAG, "input request" );
               mResultType = RESULT_INPUT;
               mBTtocrs.setText( "Long-Lat" );
               mBTtocrs.setOnClickListener( null );
@@ -246,18 +247,19 @@ public class Proj4Activity extends Activity
               double lng = mExtras.getDouble( "longitude" ); // X
               double lat = mExtras.getDouble( "latitude" );  // Y
               double alt = mExtras.getDouble( "altitude" ); // Z
-              // Log.v( TAG, "EXTRA cs_from " + cs_from );
-              // Log.v( TAG, "data " + lng + " " + lat + " " + alt );
+              Log.v( TAG, "EXTRA cs_from " + cs_from );
+              Log.v( TAG, "EXTRA cs_to   " + cs_to   );
+              Log.v( TAG, "data " + lng + " " + lat + " " + alt );
               int d = 2;
               if ( cs_from != null && mCRSmanager.hasCRS( cs_from ) ) {
                 setCRS( cs_from, TYPE_FROM );
                 // mBTfromcrs.setText( mFromCRS );
                 d = mCRSmanager.getDigits( cs_from );
-                // Log.v( TAG, "set cs from " + cs_from);
+                Log.v( TAG, "set cs from " + cs_from);
               } 
               if ( cs_to != null && mCRSmanager.hasCRS( cs_to ) ) {
                 setCRS( cs_to, TYPE_TO );
-                // Log.v( TAG, "set cs to " + cs_to);
+                Log.v( TAG, "set cs to " + cs_to);
               }
               String fmt;
               StringWriter sw = new StringWriter();

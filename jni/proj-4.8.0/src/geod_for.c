@@ -66,9 +66,9 @@ geod_for(void) {
 		phi2 = atan( tan(HALFPI + s1 - ds) / onef);
 		if (al21 > 0.) {
 			al21 = PI;
-			if (signS)
+			if (signS) {
 				de = PI;
-			else {
+			} else {
 				phi2 = - phi2;
 				de = 0.;
 			}
@@ -77,27 +77,24 @@ geod_for(void) {
 			if (signS) {
 				phi2 = - phi2;
 				de = 0;
-			} else
+			} else {
 				de = PI;
+                        }
 		}
 	} else {
 		al21 = atan(M / al21);
-		if (al21 > 0)
-			al21 += PI;
-		if (al12 < 0.)
-			al21 -= PI;
+		if (al21 > 0) al21 += PI;
+		if (al12 < 0.) al21 -= PI;
 		al21 = adjlon(al21);
-		phi2 = atan(-(sinth1 * cosds + N * sinds) * sin(al21) /
-			(ellipse ? onef * M : M));
-		de = atan2(sinds * sina12 ,
-			(costh1 * cosds - sinth1 * sinds * cosa12));
-		if (ellipse)
-			if (signS)
-				de += c1 * ((1. - c2) * ds +
-					c2 * sinds * cos(ss));
-			else
-				de -= c1 * ((1. - c2) * ds -
-					c2 * sinds * cos(ss));
+		phi2 = atan(-(sinth1 * cosds + N * sinds) * sin(al21) / (ellipse ? onef * M : M));
+		de = atan2(sinds * sina12, (costh1 * cosds - sinth1 * sinds * cosa12));
+		if (ellipse) {
+			if (signS) {
+				de += c1 * ((1. - c2) * ds + c2 * sinds * cos(ss));
+			} else {
+				de -= c1 * ((1. - c2) * ds - c2 * sinds * cos(ss));
+                        }
+                }
 	}
 	lam2 = adjlon( lam1 + de );
 }

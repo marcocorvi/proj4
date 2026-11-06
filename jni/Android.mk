@@ -18,8 +18,9 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-TARGET_PLATFORM := android-8
-TARGET_ARCH_ABI := armeabi armeabi-v7a arm64-v8a x86_64
+TARGET_PLATFORM := android-21
+TARGET_ARCH_ABI := armeabi-v7a arm64-v8a 
+# TARGET_ARCH_ABI := x86_64
 # TARGET_ARCH_ABI := armeabi-v7a
 # TARGET_ARCH_ABI := armeabi
 
@@ -28,6 +29,8 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/proj-4.8.0/src
 LOCAL_CFLAGS    := -DJNI_ENABLED=1 \
         -D__ANDROID__ \
         -DPROJ_LIB="\"/data/data/uk.os.oslabs.proj4/lib/\""
+LOCAL_LDFLAGS += -Wl,-z,max-page-size=16384 \
+                 -Wl,-z,common-page-size=16384
 LOCAL_LDLIBS := -lm
 LOCAL_LDLIBS += -llog
 LOCAL_SRC_FILES := \

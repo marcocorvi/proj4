@@ -37,8 +37,11 @@ gen_cheb(int inverse, projUV (*proj)(projUV), char *s, PJ *P, int iargc, char **
 			arg = *iargv++;
 			if (*arg != '+') {
 				if (!n) { putchar('#'); ++n; }
-				(void)printf(" %s%n",arg, &L);
-				if ((n += L) > 50) { putchar('\n'); n = 0; }
+				// (void)printf(" %s%n",arg, &L);
+				(void)printf(" %s",arg);
+                                n += 1 + strlen( arg );
+				// if ((n += L) > 50) { putchar('\n'); n = 0; }
+				if (n > 50) { putchar('\n'); n = 0; }
 			}
 		}
 		if (n) putchar('\n');
